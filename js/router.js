@@ -63,16 +63,12 @@ function RenderContactPage() {
         const msg = document.getElementById('form-msg');
 
         // Prosta walidacja
-        if (!name || !email || !message || !captchaInput) {
+        if ( !message || !captchaInput) {
             msg.textContent = "All fields are required.";
             return;
         }
 
-        const emailPattern = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
-        if (!emailPattern.test(email)) {
-            msg.textContent = "Invalid email format.";
-            return;
-        }
+
 
         if (captchaInput.toUpperCase() !== captchaCode) {
             msg.textContent = "CAPTCHA code does not match.";
