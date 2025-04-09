@@ -31,23 +31,61 @@ function RenderAboutPage() {
  <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry...</p>`;
 }
 function RenderContactPage() {
+    const captchaCode = Math.random().toString(36).substring(2, 7).toUpperCase();
+
     document.querySelector('main').innerHTML = `
- <h1 class="title">Contact with me</h1>
- <form id="contact-form">
- <label for="name">Name:</label>
- <input type="text" id="name" name="name" required>
- <label for="email">Email:</label>
- <input type="email" id="email" name="email" required>
- <label for="message">Message:</label>
- <textarea id="message" name="message" required></textarea>
- <button type="submit">Send</button>
- </form>`;
+        <h1 class="title">Contact with me</h1>
+        <form id="contact-form">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" required></textarea>
+
+            <label for="captcha">Enter the code: <strong>${captchaCode}</strong></label>
+            <input type="text" id="captcha" name="captcha" required>
+
+            <button type="submit">Send</button>
+        </form>
+        <p id="form-msg" style="color:red; margin-top:10px;"></p>
+    `;
 
     document.getElementById('contact-form').addEventListener('submit', (event) => {
         event.preventDefault();
-        alert('Form submitted!');
+
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const message = document.getElementById('message').value.trim();
+        const captchaInput = document.getElementById('captcha').value.trim();
+        const msg = document.getElementById('form-msg');
+
+        // Prosta walidacja
+        if (!name || !email || !message || !captchaInput) {
+            msg.textContent = "All fields are required.";
+            return;
+        }
+
+        const emailPattern = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
+        if (!emailPattern.test(email)) {
+            msg.textContent = "Invalid email format.";
+            return;
+        }
+
+        if (captchaInput.toUpperCase() !== captchaCode) {
+            msg.textContent = "CAPTCHA code does not match.";
+            return;
+        }
+
+        // Gdy wszystko OK
+        msg.style.color = "green";
+        msg.textContent = "Message sent successfully!";
+        // Można dodać tu wysyłkę przez API/mail/etc.
     });
 }
+
 function RenderGalleryPage() {
     document.querySelector('main').innerHTML = `
       <h1 class="title">Gallery</h1>
