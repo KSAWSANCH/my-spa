@@ -48,6 +48,57 @@ function RenderContactPage() {
         alert('Form submitted!');
     });
 }
+function RenderGalleryPage() {
+    document.querySelector('main').innerHTML = `
+      <h1 class="title">Gallery</h1>
+      <div id="gallery" class="gallery-grid"></div>
+      <div id="modal" class="modal hidden">
+        <span id="close-btn">&times;</span>
+        <img id="modal-img" src="" alt="Large view">
+      </div>
+    `;
+
+    const gallery = document.getElementById('gallery');
+    const modal = document.getElementById('modal');
+    const modalImg = document.getElementById('modal-img');
+    const closeBtn = document.getElementById('close-btn');
+
+    const imageList = Array.from({ length: 9 }, (_, i) => `images/${i + 1}.jpg`);
+
+    function createImageElement(src) {
+        const img = document.createElement('img');
+        img.setAttribute('loading', 'lazy');
+        img.dataset.src = src;
+        img.classList.add('lazy-img');
+        img.addEventListener('click', () => {
+            modalImg.src = src;
+            modal.classList.remove('hidden');
+        });
+        return img;
+    }
+
+    const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                img.src = img.dataset.src;
+                obs.unobserve(img);
+            }
+        });
+    });
+
+    imageList.forEach(src => {
+        const img = createImageElement(src);
+        observer.observe(img);
+        gallery.appendChild(img);
+    });
+
+    closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.classList.add('hidden');
+    });
+}
+
 
 document.getElementById('theme-toggle').addEventListener('click', () => {
     document.body.classList.toggle('dark-mode');
@@ -57,6 +108,8 @@ document.getElementById('theme-toggle').addEventListener('click', () => {
 function popStateHandler() {
     let loc = window.location.href.toString().split(window.location.host)[1];
     if (loc === pageUrls.contact) { RenderContactPage(); }
-    if (loc === pageUrls.about) { RenderAboutPage(); }
+    else if (loc === pageUrls.about) { RenderAboutPage(); }
+    else if (loc === pageUrls.gallery) { RenderGalleryPage(); }
 }
+
 window.onpopstate = popStateHandler; 
