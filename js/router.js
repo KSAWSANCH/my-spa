@@ -1,6 +1,7 @@
 let pageUrls = {
     about: '/index.html?about',
-    contact: '/index.html?contact'
+    contact: '/index.html?contact',
+    gallery: '/index.html?gallery'
 };
 function OnStartUp() {
     popStateHandler();
@@ -17,6 +18,12 @@ document.querySelector('#contact-link').addEventListener('click', (event) => {
     document.title = 'Contact';
     history.pushState(stateObj, "contact", "?contact");
     RenderContactPage();
+});
+document.querySelector('#gallery-link').addEventListener('click', (event) => {
+    let stateObj = { page: 'gallery' };
+    document.title = 'Gallery';
+    history.pushState(stateObj, "gallery", "?gallery");
+    RenderGalleryPage();
 });
 function RenderAboutPage() {
     document.querySelector('main').innerHTML = `
