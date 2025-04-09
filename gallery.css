@@ -1,0 +1,56 @@
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    padding: 20px;
+}
+
+    .gallery-grid img {
+        width: 100%;
+        height: auto;
+        cursor: pointer;
+        border-radius: 8px;
+    }
+
+.lazy-img {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+    .lazy-img.loaded {
+        opacity: 1;
+    }
+
+/* MODAL STYLING */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+
+    .modal img {
+        max-width: 90%;
+        max-height: 90%;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(255,255,255,0.3);
+    }
+
+#close-btn {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 40px;
+    color: white;
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
+}
